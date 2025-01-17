@@ -27,17 +27,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        String [] cities = {"EDM","PAR","VAN"};
+        
+        //adding the cities in the initial list
+        String [] cities = {"edmonton","delhi","vancouver","calgary","goa"};
+        
         city_edit_text = findViewById(R.id.edt_city);
         add_city = findViewById(R.id.add_city_btn);
         city_list = findViewById(R.id.city_list);
         delete_city = findViewById(R.id.delete_city);
+        city_list.setAdapter(cityAdapter);
+        
         dataList =  new ArrayList<>(Arrays.asList(cities));
         cityAdapter = new ArrayAdapter<>(this, R.layout.content,dataList);
-        city_list.setAdapter(cityAdapter);
 
+        //for the 'add city' button
         add_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 city_edit_text.setText("");
             }
         });
+
+        //for the 'delete city' button
         city_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
